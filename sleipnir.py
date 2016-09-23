@@ -32,6 +32,15 @@
 
 from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory, WebSocketClientProtocol, WebSocketClientFactory
 import json
+import js
+
+
+def is_json(payload):
+    try:
+        json.loads(payload.decode('utf8'))
+        return True
+    except:
+        return False
 
 
 def decode_text(payload):
@@ -151,16 +160,19 @@ if __name__ == '__main__':
 
     log.startLogging(sys.stdout)
 
-    factory = WebSocketServerFactory(u"ws://127.0.0.1:9000")
-    factory.protocol = MyServerProtocol
+    #factory = WebSocketServerFactory(u"ws://127.0.0.1:9000")
+    #factory.protocol = MyServerProtocol
     # factory.setProtocolOptions(maxConnections=2)
 
-    reactor.listenTCP(9000, factory)
+    #reactor.listenTCP(9000, factory)
     #reactor.run()
 
-    f = WebSocketClientFactory(u"ws://127.0.0.1:9000")
-    f.protocol = MyClientProtocol
+    a = js.WServerHandler()
+    a.start(True)
 
-    reactor.connectTCP("localhost", 9000, f)
-    reactor.run()
+    #f = WebSocketClientFactory(u"ws://127.0.0.1:9000")
+    #f.protocol = MyClientProtocol
+
+    #reactor.connectTCP("localhost", 9000, f)
+    #reactor.run()
 
